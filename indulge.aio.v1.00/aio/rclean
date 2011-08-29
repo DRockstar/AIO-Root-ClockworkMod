@@ -1,0 +1,31 @@
+#!/system/bin/sh
+# Root Uninstaller by DRockstar
+# Modified for All in One Root and Recovery
+# assumes a temp busybox binary in path
+
+PATH=/data/local/tmp/aio:$PATH
+sdir=`busybox dirname $0`
+
+busybox mount -o remount,rw /system
+
+# Remove all busybox installations in /system
+for wdir in /system/bin /system/xbin
+do
+  busybox find $wdir -type l | while read line; do
+    btest=`busybox readlink $line | busybox grep "busybox"`
+    if busybox test "$btest" != ""; then
+      rm $line
+      if busybox test -f $btest && busybox test "$btest" != "$sdir/busybox"; then
+        rm $btest
+      fi
+    fi
+  done
+done
+
+# Remove all root files, as listed in clist file
+cat $sdir/clist | while read line; do
+  busybox rm -rf $line
+done
+
+sleep 3
+

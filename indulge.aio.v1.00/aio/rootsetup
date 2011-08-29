@@ -1,0 +1,24 @@
+#!/system/bin/sh
+
+PATH=/data/local/tmp/aio:$PATH
+
+echo Setting permissions for Root Files... 
+chmod 755 /system/xbin/busybox
+chmod 755 /system/xbin/remount
+chown root.shell /system/xbin/su
+chmod 6755 /system/xbin/su
+ln -s /system/xbin/su /system/bin/su
+
+echo Installing busybox...
+/system/xbin/busybox --install -s /system/xbin
+
+echo Setting permissions for ClockworkMod files...
+busybox chmod -R 0755 /system/bin/recoveryfiles/*
+busybox chmod -R 0755 /system/bin/recoveryres/*
+chmod 0755 /system/bin/recovery
+
+#SDX - sdx-developers.com
+#setup our busybox DNS - speedrabbit and joeykrim
+echo Setting up busybox DNS...
+echo "nameserver 8.8.8.8" >> /system/etc/resolv.conf
+echo "nameserver 8.8.4.4" >> /system/etc/resolv.conf

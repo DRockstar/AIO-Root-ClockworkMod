@@ -1,0 +1,15 @@
+#!/system/bin/sh
+# Mount system as RW or RO easily
+# original by forcystos
+# updated for Samsung Galaxy Indulge by k0nane
+
+case $1 in
+rw)
+  echo "Remounting /system (/dev/stl10) in read/write mode"
+  /system/bin/mount -o remount,rw /dev/stl10 /system;;
+ro)
+    echo "Remounting /system (/dev/stl10) in read-only mode"
+    /system/bin/mount -o remount,ro /dev/stl10 /system;;
+*)
+    echo "usage: remount rw   -or-   remount ro";;
+esac
