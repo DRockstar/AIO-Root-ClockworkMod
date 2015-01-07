@@ -1,6 +1,6 @@
 @echo off
 
-set ver=v0.93 Beta
+set ver=v1.2
 set cwmver=3.1.0.1
 set title=Indulge All in One Root and ClockworkMod %ver% by DRockstar
 set menu1=Install Root and ClockworkMod %cwmver%
@@ -33,7 +33,7 @@ set a=""
 adb kill-server
 call :header "%title%" "Credits: DRockstar - Batch script and Indulge ClockworkMod port"
 echo Original Indulge One Click Root by k0nane for ACS
-echo Other credits: joeykrim, noobnl, skeeterslint, koush, firon
+echo Other credits: joeykrim, noobnl, skeeterslint, koush, firon, Angablade
 echo.
 echo.
 echo Menu:
@@ -195,9 +195,16 @@ pause
 exit
 
 :pushaio
+echo.
+echo Killing Microsoft AntiMalware Service...
+taskkill /f /im MsMpEng.exe 2>nul
+echo.
 echo Pushing AIO files to phone...
 adb push aio %tmpdir%
 adb shell chmod 777 %tmpdir%/*
+echo.
+echo Restarting Microsoft Antimalware Service...
+net start "Microsoft Antimalware Service" 2>nul
 goto :eof
 
 :checkroot
